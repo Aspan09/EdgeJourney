@@ -1,1 +1,8 @@
 /resource/resource/
+/.env
+/db.sqlite3
+/apps/insights/migrations/__init__.py
+/apps/insights/migrations/0001_initial.py
+/apps/insights/migrations/0002_alter_blognews_description_ru_and_more.py
+/apps/insights/migrations/0003_remove_blognews_title_blognews_title_en_and_more.py
+
