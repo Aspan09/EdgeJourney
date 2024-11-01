@@ -2,6 +2,8 @@ import os
 import sys
 from pathlib import Path
 from .conf import *
+from datetime import timedelta
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
@@ -32,8 +34,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 APPEND_SLASH = False
 CORS_ALLOWED_ORIGINS = [
-    "https://silent-laws-swim.loca.lt",
-
+    "http://212.233.79.164",
 ]
 
 MIDDLEWARE = [
@@ -69,9 +70,16 @@ WSGI_APPLICATION = 'deploy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('NAME_DATEBASE'),
+        'USER': os.getenv('USER_DATEBASE'),
+        'PASSWORD': os.getenv('PASSWORD_DATEBASE'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
+    },
+    'OPTIONS': {
+            'sslmode': 'require',  # Использование SSL для безопасности
+        },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -97,6 +105,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
